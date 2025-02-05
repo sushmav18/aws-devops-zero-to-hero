@@ -3,6 +3,11 @@
 Welcome back to our "30 Days AWS Zero to Hero" series. Today, on Day 16, we will deep dive into AWS CloudWatch.
 
 What is AWS CloudWatch?
+Gate keeper for monitoring AWS account tracking activities:
+1.Monitoring
+2.Logging
+3.Reporting
+4. Logging
 
 AWS CloudWatch is a powerful monitoring and observability service provided by Amazon Web Services. It enables you to gain insights into the performance, health, and operational aspects of your AWS resources and applications. CloudWatch collects and tracks metrics, collects and monitors log files, and sets alarms to alert you on certain conditions.
 
