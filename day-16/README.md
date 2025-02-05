@@ -66,3 +66,123 @@ Lambda Triggers: Invoke AWS Lambda functions based on log patterns or alarms.
 5. Cost Optimization and Security
 Billing Alarms: Track AWS costs and prevent unexpected charges.
 Security Monitoring: Use CloudTrail logs with CloudWatch to detect unauthorized activities.
+
+ EC2 Auto-Recovery & Cost Optimization
+📌 Use Case: Automatically recover crashed EC2 instances and detect underutilized ones.
+
+✅ How?
+
+Set up a CloudWatch Alarm to detect an unhealthy EC2 instance.
+Use an AWS Lambda function to restart the instance.
+Create another alarm to detect low CPU utilization (e.g., < 10%) to shut down idle instances.
+🔹 Example Command (EC2 Auto-Recovery Alarm)
+
+bash
+Copy
+Edit
+aws cloudwatch put-metric-alarm --alarm-name "EC2_Recover" \
+  --metric-name "StatusCheckFailed_System" --namespace "AWS/EC2" \
+  --statistic Maximum --threshold 1 --comparison-operator GreaterThanThreshold \
+  --dimensions Name=InstanceId,Value=i-1234567890abcdef0 \
+  --evaluation-periods 2 --period 60 \
+  --alarm-actions arn:aws:automate:region:ec2:recover
+2️⃣ Detecting & Restarting Crashed Containers (ECS/EKS/Fargate)
+📌 Use Case: Detect failed ECS tasks and restart them automatically.
+
+✅ How?
+
+Set up a CloudWatch Alarm to monitor ECS task status.
+Use Amazon EventBridge to trigger a Lambda function to restart the task.
+🔹 EventBridge Rule for Task Failure
+
+json
+Copy
+Edit
+{
+  "source": ["aws.ecs"],
+  "detail-type": ["ECS Task State Change"],
+  "detail": {
+    "desiredStatus": ["STOPPED"]
+  }
+}
+3️⃣ Monitor & Alert on High CPU/Memory Usage
+📌 Use Case: Detect performance bottlenecks in EC2, ECS, or Lambda functions.
+
+✅ How?
+
+Create CloudWatch Alarms for CPU and Memory thresholds.
+Trigger an SNS notification to alert the team via Slack or Email.
+🔹 Example: Alarm for High CPU Usage on ECS
+
+bash
+Copy
+Edit
+aws cloudwatch put-metric-alarm --alarm-name "HighCPUUsage" \
+  --metric-name "CPUUtilization" --namespace "AWS/ECS" \
+  --statistic Average --threshold 80 --comparison-operator GreaterThanThreshold \
+  --dimensions Name=ClusterName,Value=my-cluster Name=ServiceName,Value=my-service \
+  --evaluation-periods 2 --period 60 --alarm-actions arn:aws:sns:us-east-1:123456789012:DevOpsAlerts
+4️⃣ Log Monitoring & Automated Security Alerts
+📌 Use Case: Detect security threats like failed SSH logins or API abuse.
+
+✅ How?
+
+Use CloudWatch Logs Insights to analyze system logs.
+Set up alarms for multiple failed login attempts to trigger an automated response (e.g., block the IP).
+🔹 Example Query for Failed SSH Logins
+
+sql
+Copy
+Edit
+fields @timestamp, @message
+| filter @message like "Failed password"
+| stats count(*) as failed_attempts by sourceIP
+| sort failed_attempts desc
+🔹 Automate Blocking IP using AWS WAF
+
+Use AWS Lambda + EventBridge to block IPs based on log insights.
+5️⃣ Detect S3 Bucket Changes & Trigger Workflows
+📌 Use Case: Trigger CI/CD pipeline when a new object is uploaded to S3.
+
+✅ How?
+
+Use CloudWatch Events to detect S3 PUT requests.
+Trigger a CodePipeline or Lambda function for processing.
+🔹 Example EventBridge Rule for S3 Upload
+
+json
+Copy
+Edit
+{
+  "source": ["aws.s3"],
+  "detail-type": ["AWS API Call via CloudTrail"],
+  "detail": {
+    "eventName": ["PutObject"],
+    "requestParameters": {
+      "bucketName": ["my-bucket"]
+    }
+  }
+}
+6️⃣ Monitor and Optimize AWS Billing
+📌 Use Case: Get notified when AWS usage crosses a specific budget threshold.
+
+✅ How?
+
+Create a CloudWatch Billing Alarm that triggers an SNS alert.
+🔹 Example: Alarm for $100 Monthly Billing
+
+bash
+Copy
+Edit
+aws cloudwatch put-metric-alarm --alarm-name "BillingAlert" \
+  --namespace "AWS/Billing" --metric-name "EstimatedCharges" \
+  --statistic Maximum --threshold 100 --comparison-operator GreaterThanThreshold \
+  --evaluation-periods 1 --period 21600 --region us-east-1 \
+  --alarm-actions arn:aws:sns:us-east-1:123456789012:BillingAlerts
+7️⃣ Detecting Latency Issues in API Gateway & Lambda
+📌 Use Case: Monitor and alert on API latency spikes.
+
+✅ How?
+
+Create a CloudWatch Alarm on API Gateway or Lambda duration metrics.
+🔹 Example: Alert if API Gateway Latency Exceeds 2 Seconds
