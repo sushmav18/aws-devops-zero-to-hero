@@ -1,0 +1,24 @@
+In AWS, when multiple security groups are attached to an EC2 instance and they have conflicting rules, the most permissive rule takes effect. Security groups work as stateful firewalls, meaning:
+
+Allow Rules Are Cumulative:
+
+If one security group allows traffic on port 22 (SSH) and another denies it, the connection is still allowed because AWS security groups do not support explicit "deny" rules.
+AWS evaluates all attached security groups and applies the most permissive rule.
+Egress Rules Apply Similarly:
+
+If one security group allows outbound traffic to a certain IP but another does not specify anything, the outbound traffic is still allowed.
+No Explicit Deny in Security Groups:
+
+Unlike Network ACLs (NACLs), which support explicit deny rules, security groups only contain "allow" rules.
+If no rule is present to allow traffic, it is implicitly denied.
+Example Scenario:
+Security Group 1: Allows inbound SSH (port 22) from 0.0.0.0/0.
+
+Security Group 2: Does not have any rule for SSH.
+
+Result: SSH is allowed, because the most permissive rule applies.
+
+Security Group 1: Allows inbound HTTP (port 80) from 0.0.0.0/0.
+
+Security Group 2: Allows inbound HTTP (port 80) from 10.0.0.0/24.
+
