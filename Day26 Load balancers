@@ -1,0 +1,44 @@
+AWS provides different types of Load Balancers under the Elastic Load Balancing (ELB) service, which helps distribute incoming traffic across multiple targets to ensure high availability and fault tolerance.
+
+*Types of Load Balancers in AWS*
+AWS offers three main types of load balancers:
+
+1️⃣ Application Load Balancer (ALB)
+Operates at Layer 7 (Application Layer).
+Routes traffic based on HTTP/HTTPS requests.
+Supports host-based, path-based, and query-based routing.
+Ideal for microservices & containerized applications.
+Supports WebSockets and integrates with AWS services like Lambda.
+Use case: Websites, REST APIs, microservices, and containerized apps (ECS, EKS).
+
+2️⃣ Network Load Balancer (NLB)
+Operates at Layer 4 (Transport Layer).
+Handles TCP, UDP, and TLS traffic.
+Can handle millions of requests per second with ultra-low latency.
+Preserves the client's original IP address.
+Supports sticky sessions based on source IP.
+Use case: High-performance applications, gaming, financial services, real-time streaming.
+
+3️⃣ Gateway Load Balancer (GWLB)
+Operates at Layer 3 (Network Layer).
+Used for inspecting and filtering traffic before reaching the target.
+Ideal for third-party security appliances (firewalls, intrusion detection).
+Provides transparent bump-in-the-wire traffic flow.
+Use case: Security appliances like firewalls, DDoS protection, network monitoring.
+
+Key Features of AWS Load Balancers
+✔ Auto Scaling: Adjusts the number of instances behind the load balancer.
+✔ SSL Termination: Offloads SSL/TLS encryption to the load balancer.
+✔ Sticky Sessions: Keeps a user's session bound to a specific target.
+✔ Cross-Zone Load Balancing: Distributes traffic evenly across multiple AZs.
+✔ Health Checks: Detects and removes unhealthy instances from the target group.
+✔ Integration with AWS Services: Works with EC2, ECS, Lambda, WAF, CloudFront, etc.
+
+Which Load Balancer Should You Choose?
+Feature	ALB (L7)	NLB (L4)	GWLB (L3)
+Protocols	HTTP, HTTPS	TCP, UDP, TLS	IP Packets
+Latency	High	Low	Medium
+Target Type	EC2, ECS, Lambda, IPs	EC2, IPs	VPC Appliances
+Routing	Path-based, Host-based	No intelligent routing	Traffic inspection
+Best for	Web apps, APIs, Microservices	Gaming, Streaming, Financial Apps	Security, Firewalls
+Let me know if you need help setting up or configuring one! 
