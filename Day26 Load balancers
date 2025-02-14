@@ -1,6 +1,6 @@
 AWS provides different types of Load Balancers under the Elastic Load Balancing (ELB) service, which helps distribute incoming traffic across multiple targets to ensure high availability and fault tolerance.
 
-*Types of Load Balancers in AWS*
+**Types of Load Balancers in AWS**
 AWS offers three main types of load balancers:
 
 1️⃣ Application Load Balancer (ALB)
