@@ -7,8 +7,12 @@ Amazon Route 53 is a highly available, scalable, and managed Domain Name System 
 ✅ 1. Domain Registration
 Route 53 allows you to register domain names directly (e.g., example.com).
 It supports common domain extensions like .com, .org, .net, and AWS-specific ones like .aws.
+
+
 ✅ 2. DNS Resolution (Routing Traffic)
 Route 53 helps translate domain names (e.g., www.example.com) into IP addresses (e.g., 192.0.2.44).
+
+
 
 It supports various routing policies (explained below).
 ✅ 3. Health Checks & Failover
